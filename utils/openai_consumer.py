@@ -10,7 +10,7 @@ class OpenAIConsumer:
         self.client = OpenAI()
 
     def generate_text(
-        self, instructions: str, input: str, model: str = "gpt-4o"
+        self, instructions: str, input: str, model: str = "gpt-4o-mini"
     ) -> str:
         """
         Generates text using OpenAI's API.
