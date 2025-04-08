@@ -24,7 +24,7 @@ ai-review-pre-commit
 
 1. Clone the repository:
    ```
-   git clone <repository-url>
+   git clone git@github.com:jlariza/ai-review-pre-commit.git
    cd ai-review-pre-commit
    ```
 
@@ -32,6 +32,11 @@ ai-review-pre-commit
    ```
    pip install -r requirements.txt
    ```
+   > **Note:** It is recommended to use a virtual environment to install the dependencies. You can create and activate a virtual environment with the following commands:
+   > ```
+   > python -m venv venv
+   > source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
+   > ```
 
 3. Set up your OpenAI API key:
    - Create a `.env` file in the root directory (if not already present).
