@@ -1,23 +1,23 @@
-# python-precommit-project
+# AI review pre commit
 
-This project implements a custom pre-commit hook for Git that checks the content of files staged for commit. The hook executes a TODO function defined in the utility module, which determines whether the commit should proceed based on the content of the files.
+This project implements a custom pre-commit hook for [pre-commit](https://pre-commit.com/) framework that checks the content of files staged for commit. The hook uses OpenAI's API to review the code and provide feedback before the commit is finalized.
 
 ## Project Structure
 
 ```
-python-precommit-project
-├── hooks
-│   └── pre-commit.py
-├── src
-│   ├── main.py
-│   └── utils.py
+ai-review-pre-commit
+├── .env
+├── .gitignore
+├── .pre-commit-hooks.yaml
+├── main.py
+├── pyproject.toml
+├── README.md
+├── requirements.txt
 ├── tests
 │   └── test_utils.py
-├── .git
-│   └── hooks
-│       └── pre-commit (symlink to ../hooks/pre-commit.py)
-├── requirements.txt
-└── README.md
+└── utils
+    ├── __init__.py
+    └── openai_consumer.py
 ```
 
 ## Setup Instructions
@@ -25,7 +25,7 @@ python-precommit-project
 1. Clone the repository:
    ```
    git clone <repository-url>
-   cd python-precommit-project
+   cd ai-review-pre-commit
    ```
 
 2. Install the required dependencies:
@@ -33,20 +33,38 @@ python-precommit-project
    pip install -r requirements.txt
    ```
 
-3. Ensure that the pre-commit hook is set up correctly. The `.git/hooks/pre-commit` file should be a symlink to `hooks/pre-commit.py`.
+3. Set up your OpenAI API key:
+   - Create a `.env` file in the root directory (if not already present).
+   - Add your OpenAI API key in the following format:
+     ```
+     OPENAI_API_KEY=your-api-key-here
+     ```
+
 
 ## Usage
 
-When you attempt to make a commit, the pre-commit hook will automatically run. It will read the content of the files you are trying to commit and execute the TODO function from `src/utils.py`. If the function returns a failure status, the commit will be aborted, and you will see an error message.
+When you attempt to make a commit, the pre-commit hook will automatically run. It will:
+1. Retrieve the staged changes using `git diff --staged`.
+2. Send the changes to OpenAI's API for review.
+3. Provide feedback on the code. If no issues are found, the commit will proceed. Otherwise, the commit will be aborted, and feedback will be displayed.
+
+To manually test the functionality, you can run the `main.py` script:
+```
+python main.py
+```
 
 ## Testing
 
 To run the tests for the utility functions, navigate to the `tests` directory and execute:
 ```
-pytest test_utils.py
+pytest tests/test_utils.py
 ```
 
-This will ensure that the TODO function behaves as expected and meets the defined criteria.
+This will ensure that the utility functions behave as expected and meet the defined criteria.
+
+## Disclaimer
+
+**This project is a work in progress and should not be used in production.** The functionality and reliability of the code are still under development, and there may be bugs or incomplete features.
 
 ## Contributing
 
