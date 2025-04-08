@@ -1,4 +1,4 @@
-from openai import OpenAI
+from openai import OpenAI, OpenAIError
 
 
 class OpenAIConsumer:
@@ -27,5 +27,5 @@ class OpenAIConsumer:
                 input=input,
             )
             return response.output_text
-        except Exception as e:
+        except OpenAIError as e:
             raise RuntimeError(f"Error generating text: {e}")

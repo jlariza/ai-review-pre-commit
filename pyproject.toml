@@ -1,0 +1,22 @@
+[project]
+name = "ai-review"
+version = "0.0.1"
+description = "This hook performs a review of your code using an AI model."
+readme = "README.md"
+keywords = [
+    "pre-commit",
+]
+license = { file = "LICENSE" }
+authors = [{ name = "Jose Ariza"}, { name = "Jose Ariza"}]
+requires-python = ">=3.13"
+dependencies = [
+    "openai==1.71.0",
+    "python-dotenv==1.1.0",
+]
+
+[project.scripts]
+cli-command = "hooks.pre_commit:main"
+
+[tool.setuptools.packages.find]
+exclude = ["tests", "tests.*"]
+namespaces = false

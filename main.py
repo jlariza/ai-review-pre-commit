@@ -1,13 +1,15 @@
+import re
 import subprocess
 
 from dotenv import load_dotenv
 
-from src.openai_consumer import OpenAIConsumer
+from utils.openai_consumer import OpenAIConsumer
 
 load_dotenv()
 
 PASS = 0
 FAIL = 1
+DIFF_PATTERN = r"^@@ -\d+(?:,\d+)? \+\d+(?:,\d+)? @@.*$"
 
 
 def main() -> int:
@@ -40,26 +42,37 @@ def main() -> int:
         diff_files = diff.split("diff --git")
 
         for file in diff_files:
-            # # get file name
-            # file_name = file.split(" ")[2].split("/")[1]
-            # # get file content
-            # file_content = file.split("@@")[1].split(" ")[2]
-            # # get the diff content
-            # diff_content = file.split("@@")[1].split(" ")[3]
+            if not file:
+                continue
+            file_lines = file.split("\n")
+            # Get the file name
+            try:
+                file_name = file_lines[0].split(" ")[2].replace("b/", "", 1)
+            except IndexError:
+                file_name = "unknown_file"
+            file_content = "\n".join(
+                file_line
+                for file_line in file_lines
+                if not re.match(DIFF_PATTERN, file_line)
+            )
 
             # Send the diff to OpenAI API for processing
             response = consumer.generate_text(
                 instructions="Please review this code and provide feedback. Return OK if there is no feedback.",
-                input=file,
-                model="gpt-4o",
+                input=file_content,
+                model="gpt-4o-mini",
             )
             # Parse the response
             response = response.split("\n")
             # Check if the response contains feedback
-            feedback = [line for line in response if line]
+            feedback = [line for line in response if line and line != "OK"]
+            # If the feedback is empty, continue to the next file
+            if not feedback:
+                print(f"No feedback for: {file_name}")
+                continue
             # If feedback is found, print it
             if feedback:
-                print("Feedback:")
+                print(f"Feedback for: {file_name}")
                 for line in feedback:
                     print(line)
                 exit_code = FAIL
@@ -68,7 +81,8 @@ def main() -> int:
             print("No feedback found.")
             exit_code = PASS
 
-    except Exception:
+    except Exception as e:
+        print(f"Unexpected error: {e}")
         exit_code |= FAIL
 
     return exit_code
