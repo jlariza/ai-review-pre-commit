@@ -1,11 +1,7 @@
 import re
 import subprocess
 
-from dotenv import load_dotenv
-
 from utils.openai_consumer import OpenAIConsumer
-
-load_dotenv()
 
 PASS = 0
 FAIL = 1
@@ -17,7 +13,6 @@ def main() -> int:
     Returns:
         int: 0 if successful, 1 if failed.
     """
-
     exit_code = PASS
 
     try:
@@ -77,13 +72,12 @@ def main() -> int:
                     print(line)
                 exit_code = FAIL
 
-        else:
-            print("No feedback found.")
-            exit_code = PASS
+            else:
+                print("No feedback found.")
 
     except Exception as e:
         print(f"Unexpected error: {e}")
-        exit_code |= FAIL
+        exit_code = FAIL
 
     return exit_code
 

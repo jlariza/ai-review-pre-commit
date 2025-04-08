@@ -15,7 +15,7 @@ dependencies = [
 ]
 
 [project.scripts]
-cli-command = "hooks.pre_commit:main"
+ai-review = "hooks.main:main"
 
 [tool.setuptools.packages.find]
 exclude = ["tests", "tests.*"]

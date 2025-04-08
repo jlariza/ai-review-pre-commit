@@ -39,8 +39,7 @@ ai-review-pre-commit
    > ```
 
 3. Set up your OpenAI API key:
-   - Create a `.env` file in the root directory (if not already present).
-   - Add your OpenAI API key in the following format:
+   - Create `OPENAI_API_KEY` environment variable in the following format:
      ```
      OPENAI_API_KEY=your-api-key-here
      ```
@@ -53,9 +52,9 @@ When you attempt to make a commit, the pre-commit hook will automatically run. I
 2. Send the changes to OpenAI's API for review.
 3. Provide feedback on the code. If no issues are found, the commit will proceed. Otherwise, the commit will be aborted, and feedback will be displayed.
 
-To manually test the functionality, you can run the `main.py` script:
+To manually test the functionality, you can run the `try-repo` script:
 ```
-python main.py
+pre-commit try-repo .
 ```
 
 ## Testing
