@@ -87,7 +87,7 @@ class AIConsumerFeedbackResponse:
         """
         if feedback_type not in self.TYPES_OF_FEEDBACK:
             raise ValueError(f"Invalid feedback type: {feedback_type}")
-        return f"{self.TYPES_OF_FEEDBACK[feedback_type]}. Return OK if there is no feedback."
+        return f"{self.TYPES_OF_FEEDBACK[feedback_type]}. Return OK if there is no feedback. Avoid giving general recommendations that are already addressed or that have no action items to be fixed"  # noqa: E501
 
     def _filter_feedback(
         self,
