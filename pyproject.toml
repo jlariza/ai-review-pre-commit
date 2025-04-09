@@ -28,3 +28,22 @@ source = ["utils", "hooks"]
 [tool.coverage.report]
 show_missing = true
 skip_covered = true
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = [
+    # pycodestyle
+    "E",
+    # Pyflakes
+    "F",
+    # pyupgrade
+    "UP",
+    # flake8-bugbear
+    "B",
+    # flake8-simplify
+    "SIM",
+    # isort
+    "I",
+]
