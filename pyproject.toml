@@ -20,3 +20,11 @@ ai-review = "hooks.main:main"
 [tool.setuptools.packages.find]
 exclude = ["tests", "tests.*"]
 namespaces = false
+
+[tool.coverage.run]
+branch = true
+source = ["utils", "hooks"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true

@@ -47,6 +47,7 @@ ai-review-pre-commit
 
 ## Usage
 
+### Local usage
 When you attempt to make a commit, the pre-commit hook will automatically run. It will:
 1. Retrieve the staged changes using `git diff --staged`.
 2. Send the changes to OpenAI's API for review.
@@ -56,6 +57,23 @@ To manually test the functionality, you can run the `try-repo` script:
 ```
 pre-commit try-repo .
 ```
+
+### Extenal usage
+If you want to use this functionality on an external repo:
+1. Ensure [pre-commit](https://pre-commit.com/) is installed
+2. Ensure the `OPENAI_API_KEY` exists on your environment
+3. Add the file `.pre-commit-config.yaml` on your repository's root directory, with the following configuration:
+
+```
+repos:
+-   repo: https://github.com/jlariza/ai-review-pre-commit
+    rev: 0.0.1
+    hooks:
+    -   id: ai-review
+```
+
+4. run `pre-commit install` to set up the git hook scripts
+5. Commit away!
 
 ## Testing
 

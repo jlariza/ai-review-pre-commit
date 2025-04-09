@@ -11,7 +11,7 @@ class FeedbackType(Enum):
 
 class AIConsumerFeedbackResponse:
     TYPES_OF_FEEDBACK = {
-        FeedbackType.REVIEW: "Please review this code for code smells, bad practices and outdated or deprecated code and provide feedback.",
+        FeedbackType.REVIEW: "Please review this code for code smells, bad practices and outdated or deprecated code and provide feedback",
         FeedbackType.SECURITY: "Please review this code security based in OWASP and provide feedback",
         FeedbackType.FORMAT: "Please review this code format, based on the best lint and format practices, and provide feedback",
     }
@@ -65,7 +65,7 @@ class AIConsumerFeedbackResponse:
         self,
         input: str,
         model: str = "gpt-4o-mini",
-        feedback_types: list[str] = [FeedbackType.REVIEW],
+        feedback_types: list[FeedbackType] = [FeedbackType.REVIEW],
     ) -> dict[str, list[str]]:
         """
         Get all feedback from the AI consumer.
