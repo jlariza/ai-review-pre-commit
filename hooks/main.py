@@ -1,3 +1,4 @@
+import argparse
 import re
 import subprocess
 
@@ -15,7 +16,27 @@ def main() -> int:
         int: 0 if successful, 1 if failed.
     """
     exit_code = EXIT_CODE_SUCCESS
-    feedback_types = [FeedbackType.FORMAT]
+    feedback_types = [FeedbackType.REVIEW]
+    ignore_fail = False
+
+    # Parse command-line arguments
+    parser = argparse.ArgumentParser(description="Process git diffs and send them to OpenAI API for feedback.")
+    parser.add_argument("--format", action="store_true", help="Enable format feedback.")
+    parser.add_argument("--security", action="store_true", help="Enable security feedback.")
+    parser.add_argument("--no-fail", action="store_true", help="Gets the feedback but does not fail the hook.")
+    args = parser.parse_args()
+
+    # Determine feedback types based on arguments
+
+    if args.format:
+        feedback_types.append(FeedbackType.FORMAT)
+    if args.security:
+        feedback_types.append(FeedbackType.SECURITY)
+
+    # if no fail is set, always return success
+    if args.no_fail:
+        ignore_fail = True
+        exit_code = EXIT_CODE_SUCCESS
 
     try:
         consumer = OpenAIConsumer()
@@ -65,7 +86,7 @@ def main() -> int:
         print(f"Unexpected error: {e}")
         exit_code = EXIT_CODE_FAIL
 
-    return exit_code
+    return exit_code if not ignore_fail else EXIT_CODE_SUCCESS
 
 
 if __name__ == "__main__":
