@@ -1,4 +1,3 @@
-import subprocess
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -42,8 +41,7 @@ def test_main_no_changes(mock_subprocess_run, mock_openai_client):
     assert result == EXIT_CODE_SUCCESS
     mock_subprocess_run.assert_called_once_with(
         ["git", "diff", "--staged"],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        capture_output=True,
         text=True,
     )
 
