@@ -20,15 +20,11 @@ def test_generate_text_success(mock_openai_client):
     Test that `generate_text` returns the expected output when the API call is successful.
     """
     # Arrange
-    mock_openai_client.responses.create.return_value = MagicMock(
-        output_text="Generated text"
-    )
+    mock_openai_client.responses.create.return_value = MagicMock(output_text="Generated text")
     consumer = OpenAIConsumer()
 
     # Act
-    result = consumer.generate_text(
-        instructions="Write a poem", input="Roses are red", model="gpt-4o-mini"
-    )
+    result = consumer.generate_text(instructions="Write a poem", input="Roses are red", model="gpt-4o-mini")
 
     # Assert
     assert result == "Generated text"
@@ -47,9 +43,7 @@ def test_generate_text_error(mock_openai_client):
 
     # Act & Assert
     with pytest.raises(RuntimeError, match="Error generating text: API error"):
-        consumer.generate_text(
-            instructions="Write a story", input="Once upon a time", model="gpt-4o-mini"
-        )
+        consumer.generate_text(instructions="Write a story", input="Once upon a time", model="gpt-4o-mini")
     mock_openai_client.responses.create.assert_called_once_with(
         model="gpt-4o-mini", instructions="Write a story", input="Once upon a time"
     )

@@ -6,20 +6,11 @@ from utils.protocols import AIConsumerProtocol
 
 class MockAIConsumer(AIConsumerProtocol):
     def generate_text(self, instructions: str, input: str, model: str) -> str:
-        if (
-            AIConsumerFeedbackResponse.TYPES_OF_FEEDBACK[FeedbackType.REVIEW]
-            in instructions
-        ):
+        if AIConsumerFeedbackResponse.TYPES_OF_FEEDBACK[FeedbackType.REVIEW] in instructions:
             return "Feedback 1\nFeedback 2\nOK"
-        elif (
-            AIConsumerFeedbackResponse.TYPES_OF_FEEDBACK[FeedbackType.SECURITY]
-            in instructions
-        ):
+        elif AIConsumerFeedbackResponse.TYPES_OF_FEEDBACK[FeedbackType.SECURITY] in instructions:
             return "Security Feedback 1\nOK"
-        elif (
-            AIConsumerFeedbackResponse.TYPES_OF_FEEDBACK[FeedbackType.FORMAT]
-            in instructions
-        ):
+        elif AIConsumerFeedbackResponse.TYPES_OF_FEEDBACK[FeedbackType.FORMAT] in instructions:
             return "Format Feedback 1\nFormat Feedback 2\nOK"
         return "OK"
 

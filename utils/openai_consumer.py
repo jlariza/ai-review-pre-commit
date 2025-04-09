@@ -9,9 +9,7 @@ class OpenAIConsumer:
         # OPENAI_API_KEY is set as an environment variable
         self.client = OpenAI()
 
-    def generate_text(
-        self, instructions: str, input: str, model: str = "gpt-4o-mini"
-    ) -> str:
+    def generate_text(self, instructions: str, input: str, model: str = "gpt-4o-mini") -> str:
         """
         Generates text using OpenAI's API.
 
@@ -28,4 +26,4 @@ class OpenAIConsumer:
             )
             return response.output_text
         except OpenAIError as e:
-            raise RuntimeError(f"Error generating text: {e}")
+            raise RuntimeError(f"Error generating text: {e}") from e

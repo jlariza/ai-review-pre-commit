@@ -11,9 +11,9 @@ class FeedbackType(Enum):
 
 class AIConsumerFeedbackResponse:
     TYPES_OF_FEEDBACK = {
-        FeedbackType.REVIEW: "Please review this code for code smells, bad practices and outdated or deprecated code and provide feedback",
-        FeedbackType.SECURITY: "Please review this code security based in OWASP and provide feedback",
-        FeedbackType.FORMAT: "Please review this code format, based on the best lint and format practices, and provide feedback",
+        FeedbackType.REVIEW: "Please review this code for code smells, bad practices and outdated or deprecated code and provide feedback",  # noqa: E501
+        FeedbackType.SECURITY: "Please review this code security based in OWASP and provide feedback",  # noqa: E501
+        FeedbackType.FORMAT: "Please review this code format, based on the best lint and format practices, and provide feedback",  # noqa: E501
     }
 
     def __init__(self, consumer: AIConsumerProtocol):
@@ -65,21 +65,17 @@ class AIConsumerFeedbackResponse:
         self,
         input: str,
         model: str = "gpt-4o-mini",
-        feedback_types: list[FeedbackType] = [FeedbackType.REVIEW],
+        feedback_types: list[FeedbackType] | None = None,
     ) -> dict[str, list[str]]:
         """
         Get all feedback from the AI consumer.
         """
+        if feedback_types is None:
+            feedback_types = [FeedbackType.REVIEW]
         return {
-            "review": self.get_review_feedback(input, model)
-            if FeedbackType.REVIEW in feedback_types
-            else [],
-            "security": self.get_security_feedback(input, model)
-            if FeedbackType.SECURITY in feedback_types
-            else [],
-            "format": self.get_format_feedback(input, model)
-            if FeedbackType.FORMAT in feedback_types
-            else [],
+            "review": self.get_review_feedback(input, model) if FeedbackType.REVIEW in feedback_types else [],
+            "security": self.get_security_feedback(input, model) if FeedbackType.SECURITY in feedback_types else [],
+            "format": self.get_format_feedback(input, model) if FeedbackType.FORMAT in feedback_types else [],
         }
 
     def _generate_instructions(self, feedback_type: FeedbackType) -> str:

@@ -22,8 +22,7 @@ def main() -> int:
         # Get the changes that have been staged but not yet committed
         result = subprocess.run(
             ["git", "diff", "--staged"],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            capture_output=True,
             text=True,
         )
         if result.returncode != 0:
@@ -47,16 +46,10 @@ def main() -> int:
                 file_name = file_lines[0].split(" ")[2].replace("b/", "", 1)
             except IndexError:
                 file_name = "unknown_file"
-            file_content = "\n".join(
-                file_line
-                for file_line in file_lines
-                if not re.match(DIFF_PATTERN, file_line)
-            )
+            file_content = "\n".join(file_line for file_line in file_lines if not re.match(DIFF_PATTERN, file_line))
 
             # Send the diff to OpenAI API for processing
-            feedback_result = AIConsumerFeedbackResponse(
-                consumer=consumer
-            ).get_all_feedback(
+            feedback_result = AIConsumerFeedbackResponse(consumer=consumer).get_all_feedback(
                 input=file_content,
                 feedback_types=feedback_types,
             )
