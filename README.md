@@ -105,3 +105,10 @@ This will ensure that the utility functions behave as expected and meet the defi
 ## Contributing
 
 Contributions are welcome! Please open an issue or submit a pull request for any enhancements or bug fixes.
+
+### TODO list
+- [ ] Add support for additional AI models extending `AIConsumerProtocol` protocol.
+- [ ] Improve feedback filterting to avoid non relevant blocking feedback.
+- [ ] Optimize API call efficiency to reduce costs.
+- [ ] Improve error handling and logging.
+- [ ] Create detailed documentation for configuration options.
